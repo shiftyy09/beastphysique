@@ -1,0 +1,22 @@
+workflows:
+  ios-workflow:
+    name: iOS Workflow
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      - name: Get Flutter packages
+        script: flutter pub get
+      - name: Build iOS for Device (nem szimulátor)
+        script: |
+          flutter build ios --release --no-codesign
+      - name: Create IPA manually
+        script: |
+          cd build/ios/iphoneos
+          mkdir Payload
+          cp -r Runner.app Payload/
+          zip -r ../../../Runner.ipa Payload/
+    artifacts:
+      - "*.ipa"
+      - build/ios/iphoneos/Runner.app
