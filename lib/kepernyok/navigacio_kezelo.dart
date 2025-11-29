@@ -5,14 +5,7 @@ import 'beallitasok_kepernyo.dart';
 import '../tema/theme_controller.dart';
 
 class NavigacioKezelo extends StatefulWidget {
-  final Function? atvaltoTema;
-  final bool vilagTema;
-
-  const NavigacioKezelo({
-    super.key,
-    this.atvaltoTema,
-    this.vilagTema = false,
-  });
+  const NavigacioKezelo({super.key});
 
   @override
   State<NavigacioKezelo> createState() => _NavigacioKezeloState();
@@ -37,10 +30,7 @@ class _NavigacioKezeloState extends State<NavigacioKezelo> {
         final kepernyok = [
           const FoKepernyo(),
           const EdzesekKepernyo(),
-          BeallitasokKepernyo(
-            atvaltoTema: () => toggleTheme(),
-            vilagTema: isLight,
-          ),
+          const BeallitasokKepernyo(), // Paraméterek eltávolítva
         ];
 
         return Scaffold(

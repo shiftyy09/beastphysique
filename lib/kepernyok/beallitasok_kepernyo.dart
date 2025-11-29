@@ -1,42 +1,27 @@
 import 'package:flutter/material.dart';
+import '../tema/theme_controller.dart';
 
-class BeallitasokKepernyo extends StatefulWidget {
-  final Function? atvaltoTema;
-  final bool vilagTema;
-
-  const BeallitasokKepernyo({
-    super.key,
-    this.atvaltoTema,
-    this.vilagTema = false,
-  });
-
-  @override
-  State<BeallitasokKepernyo> createState() => _BeallitasokKepernyoState();
-}
-
-class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
-  late bool _localVilagTema;
-
-  @override
-  void initState() {
-    super.initState();
-    _localVilagTema = widget.vilagTema;
-  }
-
-  @override
-  void didUpdateWidget(BeallitasokKepernyo oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.vilagTema != widget.vilagTema) {
-      _localVilagTema = widget.vilagTema;
-    }
-  }
+class BeallitasokKepernyo extends StatelessWidget {
+  const BeallitasokKepernyo({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    // Ellenőrizzük, hogy a jelenlegi téma világos-e
+    final isLight = theme.brightness == Brightness.light;
+
+    // Színek beállítása a téma alapján (megtartva az eredeti dizájnt)
+    final backgroundColor = isLight ? Colors.white : const Color(0xFF000000);
+    final appBarColor = isLight ? const Color(0xFFE65100) : const Color(0xFF1A1A1A);
+    final containerColor = isLight ? Colors.grey[100] : const Color(0xFF1E1E1E);
+    final borderColor = isLight ? Colors.grey[300]! : Colors.grey[700]!;
+    final textColor = isLight ? Colors.black : Colors.white;
+    final subtitleColor = isLight ? Colors.grey[700] : Colors.grey[400];
+
     return Scaffold(
-      backgroundColor: _localVilagTema ? Colors.white : const Color(0xFF000000),
+      backgroundColor: backgroundColor,
       appBar: AppBar(
-        backgroundColor: _localVilagTema ? const Color(0xFFE65100) : const Color(0xFF1A1A1A),
+        backgroundColor: appBarColor,
         title: const Text(
           'Beállítások',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900),
@@ -49,38 +34,32 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
           // Téma beállítás
           Container(
             decoration: BoxDecoration(
-              color: _localVilagTema ? Colors.grey[100] : const Color(0xFF1E1E1E),
+              color: containerColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _localVilagTema ? Colors.grey[300]! : Colors.grey[700]!,
-              ),
+              border: Border.all(color: borderColor),
             ),
             child: ListTile(
               leading: Icon(
-                _localVilagTema ? Icons.light_mode : Icons.dark_mode,
+                isLight ? Icons.light_mode : Icons.dark_mode,
                 color: const Color(0xFFE65100),
                 size: 28,
               ),
               title: Text(
                 'Téma',
                 style: TextStyle(
-                  color: _localVilagTema ? Colors.black : Colors.white,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
-                _localVilagTema ? 'Világos téma' : 'Sötét téma',
-                style: TextStyle(
-                  color: _localVilagTema ? Colors.grey[700] : Colors.grey[400],
-                ),
+                isLight ? 'Világos téma' : 'Sötét téma',
+                style: TextStyle(color: subtitleColor),
               ),
               trailing: Switch(
-                value: _localVilagTema,
+                value: isLight,
                 onChanged: (value) {
-                  setState(() {
-                    _localVilagTema = value;
-                  });
-                  widget.atvaltoTema?.call();
+                  // Itt hívjuk meg a globális váltót
+                  toggleTheme();
                 },
                 activeColor: const Color(0xFFE65100),
                 inactiveThumbColor: Colors.grey,
@@ -92,11 +71,9 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
           // További beállítások placeholder-ek
           Container(
             decoration: BoxDecoration(
-              color: _localVilagTema ? Colors.grey[100] : const Color(0xFF1E1E1E),
+              color: containerColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _localVilagTema ? Colors.grey[300]! : Colors.grey[700]!,
-              ),
+              border: Border.all(color: borderColor),
             ),
             child: ListTile(
               leading: const Icon(
@@ -107,15 +84,13 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
               title: Text(
                 'Értesítések',
                 style: TextStyle(
-                  color: _localVilagTema ? Colors.black : Colors.white,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
                 'Hamarosan elérhető',
-                style: TextStyle(
-                  color: _localVilagTema ? Colors.grey[700] : Colors.grey[400],
-                ),
+                style: TextStyle(color: subtitleColor),
               ),
             ),
           ),
@@ -123,11 +98,9 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
 
           Container(
             decoration: BoxDecoration(
-              color: _localVilagTema ? Colors.grey[100] : const Color(0xFF1E1E1E),
+              color: containerColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _localVilagTema ? Colors.grey[300]! : Colors.grey[700]!,
-              ),
+              border: Border.all(color: borderColor),
             ),
             child: ListTile(
               leading: const Icon(
@@ -138,15 +111,13 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
               title: Text(
                 'Adatvédelem',
                 style: TextStyle(
-                  color: _localVilagTema ? Colors.black : Colors.white,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
                 'Hamarosan elérhető',
-                style: TextStyle(
-                  color: _localVilagTema ? Colors.grey[700] : Colors.grey[400],
-                ),
+                style: TextStyle(color: subtitleColor),
               ),
             ),
           ),
@@ -154,11 +125,9 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
 
           Container(
             decoration: BoxDecoration(
-              color: _localVilagTema ? Colors.grey[100] : const Color(0xFF1E1E1E),
+              color: containerColor,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: _localVilagTema ? Colors.grey[300]! : Colors.grey[700]!,
-              ),
+              border: Border.all(color: borderColor),
             ),
             child: ListTile(
               leading: const Icon(
@@ -169,15 +138,13 @@ class _BeallitasokKepernyoState extends State<BeallitasokKepernyo> {
               title: Text(
                 'Rólunk',
                 style: TextStyle(
-                  color: _localVilagTema ? Colors.black : Colors.white,
+                  color: textColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               subtitle: Text(
                 'Verzió 1.0.0',
-                style: TextStyle(
-                  color: _localVilagTema ? Colors.grey[700] : Colors.grey[400],
-                ),
+                style: TextStyle(color: subtitleColor),
               ),
             ),
           ),

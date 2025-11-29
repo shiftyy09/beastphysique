@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'hitelesites_ellenorzo.dart';
+import '../tema/theme_controller.dart';
 
 class InduloKepernyo extends StatefulWidget {
-  final Function? atvaltoTema;
-  final bool? vilagTema;
-
-  const InduloKepernyo({
-    super.key,
-    this.atvaltoTema,
-    this.vilagTema,
-  });
+  const InduloKepernyo({super.key});
 
   @override
   State<InduloKepernyo> createState() => _InduloKepernyoState();
@@ -29,10 +23,7 @@ class _InduloKepernyoState extends State<InduloKepernyo> {
         try {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (context) => HitelesitesEllenorzo(
-                atvaltoTema: widget.atvaltoTema,
-                vilagTema: widget.vilagTema ?? false,
-              ),
+              builder: (context) => const HitelesitesEllenorzo(), // Paraméterek eltávolítva
             ),
           );
         } catch (e) {
@@ -44,23 +35,28 @@ class _InduloKepernyoState extends State<InduloKepernyo> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: widget.vilagTema ?? false ? Colors.white : const Color(0xFF121212),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/screenlogo.png',
-              width: 300,
+    return ValueListenableBuilder<bool>(
+      valueListenable: themeNotifier,
+      builder: (context, isLight, child) {
+        return Scaffold(
+          backgroundColor: isLight ? Colors.white : const Color(0xFF121212),
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/images/screenlogo.png',
+                  width: 300,
+                ),
+                const SizedBox(height: 20),
+                const CircularProgressIndicator(
+                  color: Color(0xFFE65100),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            const CircularProgressIndicator(
-              color: Color(0xFFE65100),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

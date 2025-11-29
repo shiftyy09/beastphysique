@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import '../szolgaltatasok/hitelesites_szolgaltatas.dart';
 
 class BejelentkezesKepernyo extends StatefulWidget {
-  final Function? atvaltoTema;
-  final bool vilagTema;
-
-  const BejelentkezesKepernyo({
-    super.key,
-    this.atvaltoTema,
-    this.vilagTema = false,
-  });
+  const BejelentkezesKepernyo({super.key});
 
   @override
   State<BejelentkezesKepernyo> createState() => _BejelentkezesKepernyoState();
@@ -32,7 +25,7 @@ class _BejelentkezesKepernyoState extends State<BejelentkezesKepernyo> {
       });
       
       if (eredmeny != null) {
-        // Sikeres bejelentkezés - itt nem kell navigálni, mert a StreamBuilder a main.dart-ban
+        // Sikeres bejelentkezés - itt nem kell navigálni, mert a StreamBuilder a main.dart-ban/hitelesites_ellenorzo.dart-ban
         // automatikusan átvált a Főképernyőre
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

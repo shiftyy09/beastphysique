@@ -175,7 +175,7 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
 
               return Dismissible(
                 key: Key(edzes.id ?? index.toString()),
-                direction: DismissDirection.endToStart,
+                direction: DismissDirection.endToStart, 
                 background: Container(
                   alignment: Alignment.centerRight,
                   padding: const EdgeInsets.only(right: 20),
@@ -218,9 +218,10 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
                 child: Card(
                   color: theme.cardColor,
                   margin: const EdgeInsets.only(bottom: 16),
+                  elevation: 2,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(color: theme.dividerColor, width: 1.5),
+                    side: BorderSide(color: theme.dividerColor.withOpacity(0.2), width: 1),
                   ),
                   child: InkWell( 
                     borderRadius: BorderRadius.circular(16),
@@ -238,7 +239,7 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
                               width: 60,
                               height: 60,
                               decoration: BoxDecoration(
-                                color: theme.colorScheme.surface,
+                                color: theme.colorScheme.primary.withOpacity(0.1),
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(color: theme.colorScheme.primary.withOpacity(0.3), width: 1.5),
                               ),
@@ -269,12 +270,13 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
                                     Container(
                                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                       decoration: BoxDecoration(
-                                        color: theme.dividerColor.withOpacity(0.12),
+                                        color: theme.colorScheme.primary.withOpacity(0.1),
                                         borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(color: theme.colorScheme.primary.withOpacity(0.2)),
                                       ),
                                       child: Text(
                                         'x$edzesSzam', // Itt jelenik meg a csoportosított darabszám
-                                        style: theme.textTheme.labelSmall?.copyWith(color: theme.textTheme.labelSmall?.color, fontWeight: FontWeight.bold),
+                                        style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary, fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
@@ -282,14 +284,14 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
                                 const SizedBox(height: 6),
                                 Text(
                                   '${edzes.gyakorlatok.length} gyakorlat • ${_formatElapsedTime(edzes.duration)}',
-                                  style: theme.textTheme.bodyMedium?.copyWith(color: theme.dividerColor, fontSize: 13),
+                                  style: theme.textTheme.bodyMedium,
                                 ),
                                 const SizedBox(height: 4),
                                 Row(
                                   children: [
                                     Text(
                                       'Összsúly: ${osszSuly} kg',
-                                      style: theme.textTheme.bodyMedium?.copyWith(color: theme.dividerColor, fontSize: 12, fontWeight: FontWeight.bold),
+                                      style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
                                     ),
                                     if (valtozasWidget != null) ...[
                                       const SizedBox(width: 8),
@@ -306,13 +308,13 @@ class _EdzesekKepernyoState extends State<EdzesekKepernyo> {
                             children: [
                               Icon(
                                 Icons.history,
-                                color: theme.dividerColor.withOpacity(0.9),
+                                color: theme.dividerColor.withOpacity(0.6),
                                 size: 20,
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 _getTimeAgo(edzes.datum.toDate()),
-                                style: theme.textTheme.bodySmall?.copyWith(color: theme.dividerColor, fontSize: 11, fontWeight: FontWeight.bold),
+                                style: theme.textTheme.bodySmall,
                               ),
                             ],
                           )

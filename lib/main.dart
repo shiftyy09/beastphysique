@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'kepernyok/indulo_kepernyo.dart';
 import 'tema/alkalmazas_tema.dart';
+import 'tema/theme_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,35 +21,23 @@ void main() async {
   runApp(const BeastPhysicalAlkalmazas());
 }
 
-class BeastPhysicalAlkalmazas extends StatefulWidget {
+class BeastPhysicalAlkalmazas extends StatelessWidget {
   const BeastPhysicalAlkalmazas({super.key});
 
   @override
-  State<BeastPhysicalAlkalmazas> createState() =>
-      _BeastPhysicalAlkalmazasState();
-}
-
-class _BeastPhysicalAlkalmazasState extends State<BeastPhysicalAlkalmazas> {
-  bool _vilagTema = false;
-
-  void _atvaltoTema() {
-    setState(() {
-      _vilagTema = !_vilagTema;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    debugPrint('MaterialApp felépítése - Téma: ${_vilagTema ? "VILÁGOS" : "SÖTÉT"}');
-
-    return MaterialApp(
-      title: 'BeastPhysical',
-      debugShowCheckedModeBanner: false,
-      theme: _vilagTema ? AlkalmazasTema.vilagTema : AlkalmazasTema.sotetTema,
-      home: InduloKepernyo(
-        atvaltoTema: _atvaltoTema,
-        vilagTema: _vilagTema,
-      ),
+    debugPrint('BeastPhysicalAlkalmazas build');
+    return ValueListenableBuilder<bool>(
+      valueListenable: themeNotifier,
+      builder: (context, isLight, child) {
+        debugPrint('MaterialApp felépítése - Téma: ${isLight ? "VILÁGOS" : "SÖTÉT"}');
+        return MaterialApp(
+          title: 'BeastPhysical',
+          debugShowCheckedModeBanner: false,
+          theme: isLight ? AlkalmazasTema.vilagTema : AlkalmazasTema.sotetTema,
+          home: const InduloKepernyo(), // Paraméterek eltávolítva
+        );
+      },
     );
   }
 }

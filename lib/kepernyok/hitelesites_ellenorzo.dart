@@ -3,17 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../szolgaltatasok/hitelesites_szolgaltatas.dart';
 import 'navigacio_kezelo.dart';
 import 'bejelentkezes_kepernyo.dart';
-import '../tema/theme_controller.dart';
 
 class HitelesitesEllenorzo extends StatelessWidget {
-  final Function? atvaltoTema;
-  final bool vilagTema;
-
-  const HitelesitesEllenorzo({
-    super.key,
-    this.atvaltoTema,
-    this.vilagTema = false,
-  });
+  const HitelesitesEllenorzo({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +15,11 @@ class HitelesitesEllenorzo extends StatelessWidget {
       stream: szerviz.felhasznaloValtozas,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return NavigacioKezelo(
-            atvaltoTema: () => toggleTheme(),
-          );
+          // Sikeres bejelentkezés esetén -> NavigacioKezelo
+          return const NavigacioKezelo();
         }
-        return BejelentkezesKepernyo(
-          atvaltoTema: () => toggleTheme(),
-        );
+        // Nincs bejelentkezve -> BejelentkezesKepernyo
+        return const BejelentkezesKepernyo();
       },
     );
   }

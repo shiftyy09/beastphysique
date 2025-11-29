@@ -20,7 +20,7 @@ class StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: theme.cardColor,
         borderRadius: BorderRadius.circular(18),
@@ -40,9 +40,11 @@ class StatCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: accentColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(10),
@@ -52,20 +54,22 @@ class StatCard extends StatelessWidget {
             child: Icon(
               icon,
               color: accentColor,
-              size: 28,
+              size: 24,
             ),
           ),
-          const SizedBox(height: 12),
-          Text(
-            value,
-            style: theme.textTheme.headlineSmall?.copyWith(
-              color: theme.textTheme.bodyLarge?.color,
-              fontSize: 26,
-              fontWeight: FontWeight.w900,
-              height: 1,
+          const SizedBox(height: 8),
+          Flexible(
+            child: Text(
+              value,
+              style: theme.textTheme.headlineSmall?.copyWith(
+                color: theme.textTheme.bodyLarge?.color,
+                fontSize: 22,
+                fontWeight: FontWeight.w900,
+                height: 1,
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 4),
           Text(
@@ -84,4 +88,3 @@ class StatCard extends StatelessWidget {
     );
   }
 }
-
