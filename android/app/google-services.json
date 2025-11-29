@@ -37,6 +37,13 @@
             {
               "client_id": "892954313142-r5s12406kfk7ij9gfa1jc0hiphn8j1i3.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "892954313142-ca3cksl1crilqmln8fpc4njamr1sf6sc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.beastphysical"
+              }
             }
           ]
         }

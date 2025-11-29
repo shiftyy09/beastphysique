@@ -59,4 +59,5 @@ class DefaultFirebaseOptions {
     projectId: 'gymbro-1f694',
     storageBucket: 'gymbro-1f694.firebasestorage.app',
   );
+
 }

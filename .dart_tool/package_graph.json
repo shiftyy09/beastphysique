@@ -19,7 +19,29 @@
       "devDependencies": [
         "flutter_launcher_icons",
         "flutter_lints",
-        "flutter_test"
+        "flutter_test",
+        "flutterfire_cli"
+      ]
+    },
+    {
+      "name": "flutterfire_cli",
+      "version": "1.0.0",
+      "dependencies": [
+        "ansi_styles",
+        "args",
+        "ci",
+        "cli_util",
+        "deep_pick",
+        "file",
+        "http",
+        "interact",
+        "meta",
+        "path",
+        "platform",
+        "pub_updater",
+        "pubspec",
+        "xml",
+        "yaml"
       ]
     },
     {
@@ -159,8 +181,100 @@
       ]
     },
     {
+      "name": "xml",
+      "version": "6.6.1",
+      "dependencies": [
+        "collection",
+        "meta",
+        "petitparser"
+      ]
+    },
+    {
+      "name": "pubspec",
+      "version": "2.3.0",
+      "dependencies": [
+        "path",
+        "pub_semver",
+        "uri",
+        "yaml"
+      ]
+    },
+    {
+      "name": "pub_updater",
+      "version": "0.2.4",
+      "dependencies": [
+        "http",
+        "json_annotation",
+        "process"
+      ]
+    },
+    {
+      "name": "platform",
+      "version": "3.1.6",
+      "dependencies": []
+    },
+    {
       "name": "path",
       "version": "1.9.1",
+      "dependencies": []
+    },
+    {
+      "name": "meta",
+      "version": "1.16.0",
+      "dependencies": []
+    },
+    {
+      "name": "interact",
+      "version": "2.1.1",
+      "dependencies": [
+        "dart_console",
+        "meta",
+        "tint"
+      ]
+    },
+    {
+      "name": "http",
+      "version": "0.13.6",
+      "dependencies": [
+        "async",
+        "http_parser",
+        "meta"
+      ]
+    },
+    {
+      "name": "file",
+      "version": "6.1.4",
+      "dependencies": [
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "deep_pick",
+      "version": "1.1.0",
+      "dependencies": []
+    },
+    {
+      "name": "cli_util",
+      "version": "0.4.2",
+      "dependencies": [
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "ci",
+      "version": "0.1.0",
+      "dependencies": []
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependencies": []
+    },
+    {
+      "name": "ansi_styles",
+      "version": "0.3.2+1",
       "dependencies": []
     },
     {
@@ -172,19 +286,11 @@
     },
     {
       "name": "image",
-      "version": "4.5.4",
+      "version": "4.3.0",
       "dependencies": [
         "archive",
         "meta",
         "xml"
-      ]
-    },
-    {
-      "name": "cli_util",
-      "version": "0.4.2",
-      "dependencies": [
-        "meta",
-        "path"
       ]
     },
     {
@@ -195,11 +301,6 @@
         "source_span",
         "yaml"
       ]
-    },
-    {
-      "name": "args",
-      "version": "2.7.0",
-      "dependencies": []
     },
     {
       "name": "lints",
@@ -238,11 +339,6 @@
         "path",
         "term_glyph"
       ]
-    },
-    {
-      "name": "meta",
-      "version": "1.16.0",
-      "dependencies": []
     },
     {
       "name": "material_color_utilities",
@@ -474,37 +570,72 @@
       "dependencies": []
     },
     {
-      "name": "xml",
-      "version": "6.6.1",
+      "name": "petitparser",
+      "version": "7.0.1",
       "dependencies": [
         "collection",
-        "meta",
-        "petitparser"
+        "meta"
+      ]
+    },
+    {
+      "name": "uri",
+      "version": "1.0.0",
+      "dependencies": [
+        "matcher",
+        "quiver"
+      ]
+    },
+    {
+      "name": "pub_semver",
+      "version": "2.2.0",
+      "dependencies": [
+        "collection"
+      ]
+    },
+    {
+      "name": "process",
+      "version": "4.2.4",
+      "dependencies": [
+        "file",
+        "path",
+        "platform"
+      ]
+    },
+    {
+      "name": "tint",
+      "version": "2.0.1",
+      "dependencies": []
+    },
+    {
+      "name": "dart_console",
+      "version": "1.0.0",
+      "dependencies": [
+        "ffi",
+        "win32"
+      ]
+    },
+    {
+      "name": "http_parser",
+      "version": "4.1.2",
+      "dependencies": [
+        "collection",
+        "source_span",
+        "string_scanner",
+        "typed_data"
       ]
     },
     {
       "name": "archive",
-      "version": "4.0.7",
+      "version": "3.6.1",
       "dependencies": [
         "crypto",
-        "path",
-        "posix"
+        "path"
       ]
     },
     {
       "name": "web",
       "version": "1.1.1",
       "dependencies": []
-    },
-    {
-      "name": "http",
-      "version": "1.6.0",
-      "dependencies": [
-        "async",
-        "http_parser",
-        "meta",
-        "web"
-      ]
     },
     {
       "name": "google_identity_services_web",
@@ -545,38 +676,23 @@
       ]
     },
     {
-      "name": "http_parser",
-      "version": "4.1.2",
+      "name": "quiver",
+      "version": "3.2.2",
       "dependencies": [
-        "collection",
-        "source_span",
-        "string_scanner",
-        "typed_data"
+        "matcher"
       ]
     },
     {
-      "name": "petitparser",
-      "version": "7.0.1",
+      "name": "win32",
+      "version": "2.6.1",
       "dependencies": [
-        "collection",
-        "meta"
+        "ffi"
       ]
     },
     {
-      "name": "posix",
-      "version": "6.0.3",
-      "dependencies": [
-        "ffi",
-        "meta",
-        "path"
-      ]
-    },
-    {
-      "name": "crypto",
-      "version": "3.0.7",
-      "dependencies": [
-        "typed_data"
-      ]
+      "name": "ffi",
+      "version": "1.2.1",
+      "dependencies": []
     },
     {
       "name": "typed_data",
@@ -586,9 +702,11 @@
       ]
     },
     {
-      "name": "ffi",
-      "version": "2.1.4",
-      "dependencies": []
+      "name": "crypto",
+      "version": "3.0.7",
+      "dependencies": [
+        "typed_data"
+      ]
     }
   ],
   "configVersion": 1
