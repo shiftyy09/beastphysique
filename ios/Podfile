@@ -1,24 +1,22 @@
-# Uncomment this line to define a global platform for your project
-platform :ios, '12.0' # Vagy a minimum iOS verzió, amit támogatsz
+    # Uncomment this line to define a global platform for your project
+    platform :ios, '12.0' # Vagy a minimum iOS verzió, amit támogatsz
 
-target 'Runner' do
-  use_frameworks!
-  use_modular_headers!
+    target 'Runner' do
+      use_frameworks!
+      use_modular_headers!
 
-  # Ez a sor betölti a Flutter által generált podhelper.rb fájlt
-  # A __dir__ a Podfile mappáját jelöli (ios/), ahonnan a 'Flutter/podhelper.rb' relatívan elérhető
-  load File.join(__dir__, 'Flutter', 'podhelper.rb')
+      # A Flutter pluginek (pl. Firebase, Google Sign-in) Pods-ait a Flutter eszközök fogják beállítani.
+      # A `flutter_additional_ios_build_settings` a post_install blokkban kezeli a szükséges konfigurációkat.
+      # NINCS szükség arra, hogy itt manuálisan betöltsd a podhelper.rb-t vagy a Flutter.podspec-et!
 
-  flutter_install_all_ios_pods # A flutter_application_path már nem szükséges itt
+      # Ha lennének további natív iOS függőségeid, ide kerülhetnének:
+      # pl.: pod 'Alamofire', '~> 5.4'
+    end
 
-  target 'RunnerTests' do
-    inherit! :complete
-    # Pods for testing
-  end
-end
-
-post_install do |installer|
-  installer.pods_project.targets.each do |target|
-    flutter_additional_ios_build_settings(target)
-  end
-end
+    post_install do |installer|
+      installer.pods_project.targets.each do |target|
+        # Ez a funkció elengedhetetlen a Flutter pluginok és build beállítások integrálásához.
+        # Ez hívja meg a Flutter belső logikáját, ami kezeli a Pods-okat.
+        flutter_additional_ios_build_settings(target)
+      end
+    end
