@@ -1,103 +1,34 @@
-    # You can find documentation about this file in the VSC Ignores topic in Visual Studio Help.
-    # The content of the file is case-sensitive, and all new lines are treated as line-endings.
-    # See http://git-scm.com/docs/gitignore
+**/dgph
+*.mode1v3
+*.mode2v3
+*.moved-aside
+*.pbxuser
+*.perspectivev3
+**/*sync/
+.sconsign.dblite
+.tags*
+**/.vagrant/
+**/DerivedData/
+Icon?
+**/Pods/
+**/.symlinks/
+profile
+xcuserdata
+**/.generated/
+Flutter/App.framework
+Flutter/Flutter.framework
+Flutter/Flutter.podspec
+Flutter/Generated.xcconfig
+Flutter/ephemeral/
+Flutter/app.flx
+Flutter/app.zip
+Flutter/flutter_assets/
+Flutter/flutter_export_environment.sh
+ServiceDefinitions.json
+Runner/GeneratedPluginRegistrant.*
 
-    # Build results
-    .build/
-    .pub/
-    build/
-    **/*.aab
-    **/*.apk
-    **/*.apks
-    **/*.app
-    **/*.ipa
-    **/*.json
-    **/*.keystore
-    **/*.mobileprovision
-    **/*.zip
-    **/*.xctestrun
-
-    # Flutter-generated files
-    .flutter-plugins
-    .flutter-plugins-dependencies
-    .packages
-    .project
-    .vscode/
-    .vscode/launch.json
-    .vscode/settings.json
-    .vs/
-    .vsconfig
-    .vsix
-    .vsixmanifest
-
-    # External dependencies
-    .dart_tool/
-    .gradle/
-    .idea/
-    .idea/libraries/
-    .idea/misc.xml
-    .idea/modules.xml
-    .idea/workspace.xml
-    .flutter-plugins-debug
-    .flutter-plugins-release
-
-    # iOS-specific files
-    ios/Flutter/.last_build_id
-    ios/Pods/
-    ios/.symlinks/
-    ios/Runner/GeneratedPluginRegistrant.*
-    ios/RunnerTests/
-    ios/*.xcworkspace
-    ios/*.xcodeproj
-    ios/*.xcscheme
-    ios/*.xcsettings
-    ios/*.xcscheme
-    ios/*.xcsettings
-    ios/Flutter/Generated.xcconfig
-    ios/Flutter/App.framework
-    ios/Flutter/Flutter.framework
-    ios/Flutter/Flutter.podspec
-    ios/Flutter/ephemeral/
-
-    # Android-specific files
-    android/.gradle/
-    android/.idea/
-    android/app/build/
-    android/app/src/main/assets/flutter_assets/
-    android/gradle/
-    android/local.properties
-    android/*.iml
-    android/.idea/
-    android/build/
-    android/gradlew
-    android/gradlew.bat
-    android/local.properties
-    android/settings.gradle.kts
-
-    # Windows-specific files
-    windows/build/
-
-    # macOS-specific files
-    macos/Flutter/GeneratedPluginRegistrant.*
-    macos/build/
-    macos/Runner/DerivedData/
-
-    # Linux-specific files
-    linux/build/
-
-    # Web-specific files
-    web/build/
-
-    # FlutterFire CLI
-    .firebaserc
-    firebase-debug.log
-    firebase-debug.*.log
-    .firebase/
-
-    # Misc
-    *.iml
-    *.lock
-    *.log
-    *.DS_Store
-    .env
-    .env.*
+# Exceptions to above rules.
+!default.mode1v3
+!default.mode2v3
+!default.pbxuser
+!default.perspectivev3

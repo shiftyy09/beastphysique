@@ -10,6 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  webview_flutter: ^4.7.0 # Hozzáadva: webview_flutter csomag
 
   # Firebase és Google csomagok frissítve a legújabb stabil verziókra
   firebase_core: ^3.2.0

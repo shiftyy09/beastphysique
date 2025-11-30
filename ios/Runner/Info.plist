@@ -45,18 +45,5 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- Google Sign-in beállítások -->
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.892954313142-ca3cksl1crilqmln8fpc4njamr1sf6sc</string>
-			</array>
-		</dict>
-	</array>
-	<!-- Google Sign-in beállítások VÉGE -->
 </dict>
 </plist>
