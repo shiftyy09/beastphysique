@@ -35,10 +35,5 @@ public final class GeneratedPluginRegistrant {
     } catch (Exception e) {
       Log.e(TAG, "Error registering plugin google_sign_in_android, io.flutter.plugins.googlesignin.GoogleSignInPlugin", e);
     }
-    try {
-      flutterEngine.getPlugins().add(new com.example.pedometer.PedometerPlugin());
-    } catch (Exception e) {
-      Log.e(TAG, "Error registering plugin pedometer, com.example.pedometer.PedometerPlugin", e);
-    }
   }
 }

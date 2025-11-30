@@ -13,8 +13,7 @@
         "firebase_core",
         "flutter",
         "google_sign_in",
-        "intl",
-        "pedometer"
+        "intl"
       ],
       "devDependencies": [
         "flutter_launcher_icons",
@@ -99,13 +98,6 @@
         "clock",
         "meta",
         "path"
-      ]
-    },
-    {
-      "name": "pedometer",
-      "version": "4.1.1",
-      "dependencies": [
-        "flutter"
       ]
     },
     {

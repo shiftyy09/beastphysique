@@ -326,12 +326,6 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "pedometer",
-      "rootUri": "file:///C:/Users/archi/AppData/Local/Pub/Cache/hosted/pub.dev/pedometer-4.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "petitparser",
       "rootUri": "file:///C:/Users/archi/AppData/Local/Pub/Cache/hosted/pub.dev/petitparser-7.0.1",
       "packageUri": "lib/",

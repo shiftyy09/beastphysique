@@ -1,34 +1,37 @@
-**/dgph
-*.mode1v3
-*.mode2v3
-*.moved-aside
-*.pbxuser
-*.perspectivev3
-**/*sync/
-.sconsign.dblite
-.tags*
-**/.vagrant/
-**/DerivedData/
-Icon?
-**/Pods/
-**/.symlinks/
-profile
-xcuserdata
-**/.generated/
-Flutter/App.framework
-Flutter/Flutter.framework
-Flutter/Flutter.podspec
-Flutter/Generated.xcconfig
-Flutter/ephemeral/
-Flutter/app.flx
-Flutter/app.zip
-Flutter/flutter_assets/
-Flutter/flutter_export_environment.sh
-ServiceDefinitions.json
-Runner/GeneratedPluginRegistrant.*
+# Podfile
+platform :ios, '12.0' # Vagy a minimum iOS verzió, amit támogatsz
 
-# Exceptions to above rules.
-!default.mode1v3
-!default.mode2v3
-!default.pbxuser
-!default.perspectivev3
+# Flutter Engine integrálása
+flutter_application_path = File.dirname(File.expand_path(__FILE__)) + '/..'
+load File.join(flutter_application_path, '.ios/Flutter/podhelper.rb')
+
+install do |installer|
+  backend = Xcode::UniversalBackend.new(installer)
+  path_to_profile = File.join(flutter_application_path, ".ios/Flutter")
+  installer.pods_project.targets.each do |target|
+    flutter_install_all_ios_pods(target, path_to_profile)
+  end
+end
+
+target 'Runner' do
+  use_frameworks!
+  use_modular_headers!
+
+  flutter_install_all_ios_pods File.dirname(File.expand_path(__FILE__)) + '/Flutter'
+
+  # Itt adjuk hozzá a Flutter-en kívüli Podokat is, ha lennének
+  # pl.: pod 'FirebaseAnalyticsWithoutAdId', :path => '../.symlinks/plugins/firebase_analytics/ios'
+end
+
+post_install do |installer|
+  # Külön beállítások a Podokhoz (pl. library search paths)
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['LIBRARY_SEARCH_PATHS'] ||= %w[
+        $(inherited)
+        $(FLUTTER_ROOT)/bin/cache/artifacts/engine
+      ]
+      config.build_settings['EXCLUDED_ARCHS[sdk=iphonesimulator*]'] ||= 'arm64'
+    end
+  end
+end
