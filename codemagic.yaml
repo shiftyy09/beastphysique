@@ -16,6 +16,7 @@ workflows:
       - name: Install Pods
         script: |
           cd ios
+          # Ez a lépés kritikus a korábbi hiba miatt
           pod install
           cd ..
       - name: Build iOS for Device (nem szimulátor)
@@ -24,9 +25,18 @@ workflows:
       - name: Create IPA manually
         script: |
           cd build/ios/iphoneos
+          
+          # Ellenőrzés: Ha a build elhasalt, ne csináljon üres zip-et
+          if [ ! -d "Runner.app" ]; then
+             echo "HIBA: A Runner.app nem jött létre!"
+             exit 1
+          fi
+
           mkdir Payload
-          cp -r Runner.app Payload/
-          zip -r ../../../Runner.ipa Payload/
+          cp -R Runner.app Payload/
+          
+          # A LÉNYEG: a -y (symlinks) kapcsoló!
+          zip -r -y ../../../Runner.ipa Payload/
     artifacts:
       - "*.ipa"
       - build/ios/iphoneos/Runner.app
