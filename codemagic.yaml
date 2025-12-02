@@ -6,8 +6,18 @@ workflows:
       flutter: stable
       xcode: latest
     scripts:
+      - name: Clean iOS build artifacts
+        script: |
+          cd ios
+          rm -rf Pods Podfile.lock
+          cd ..
       - name: Get Flutter packages
         script: flutter pub get
+      - name: Install Pods
+        script: |
+          cd ios
+          pod install
+          cd ..
       - name: Build iOS for Device (nem szimulátor)
         script: |
           flutter build ios --release --no-codesign
