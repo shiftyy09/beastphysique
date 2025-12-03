@@ -76,7 +76,7 @@ class BeastPhysicalAlkalmazas extends StatelessWidget {
       builder: (context, isLight, child) {
         debugPrint('MaterialApp felépítése - Téma: ${isLight ? "VILÁGOS" : "SÖTÉT"}');
         return MaterialApp(
-          title: 'BeastPhysical',
+          title: 'Beast Physique',
           debugShowCheckedModeBanner: false,
           theme: isLight ? AlkalmazasTema.vilagTema : AlkalmazasTema.sotetTema,
           home: const InduloKepernyo(),
