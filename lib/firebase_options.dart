@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '892954313142',
     projectId: 'gymbro-1f694',
     storageBucket: 'gymbro-1f694.firebasestorage.app',
-    bundleId: 'com.example.beastphysical',
+    iosBundleId: 'com.example.beastphysical',
   );
 }
