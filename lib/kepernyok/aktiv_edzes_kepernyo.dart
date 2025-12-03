@@ -313,7 +313,7 @@ class _AktivEdzesKepernyoState extends State<AktivEdzesKepernyo> {
   void _showSnackBar(String message, Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message, style: const TextStyle(fontWeight: FontWeight.bold)),
+        content: Text(message, style: const TextStyle(fontWeight: FontWeight.w900)),
         backgroundColor: color,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -353,7 +353,7 @@ class _AktivEdzesKepernyoState extends State<AktivEdzesKepernyo> {
       szett.befejezett = !szett.befejezett;
 
       if (szett.befejezett) {
-        _startPihenoTimer();
+        // Eltávolítva az automatikus _startPihenoTimer(); hívás
         HapticFeedback.mediumImpact();
       }
     });
@@ -849,21 +849,22 @@ class _AktivEdzesKepernyoState extends State<AktivEdzesKepernyo> {
     final szettKey = '${_gyakorlatok[gyakorlatIndex].nev}_$szettIndex';
     final elozoSzett = _elozoSettek[_gyakorlatok[gyakorlatIndex].nev]?[szettIndex];
 
-    return GestureDetector(
-      onTap: () => _szettBefejez(gyakorlatIndex, szettIndex),
-      child: Container(
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: szett.befejezett ? const Color(0xFF10B981).withOpacity(0.1) : const Color(0xFF0A0A0A),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(
-            color: szett.befejezett ? const Color(0xFF10B981) : const Color(0xFF2A2A2A),
-            width: szett.befejezett ? 2 : 1,
-          ),
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: szett.befejezett ? const Color(0xFF10B981).withOpacity(0.1) : const Color(0xFF0A0A0A),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: szett.befejezett ? const Color(0xFF10B981) : const Color(0xFF2A2A2A),
+          width: szett.befejezett ? 2 : 1,
         ),
-        child: Row(
-          children: [
-            Container(
+      ),
+      child: Row(
+        children: [
+          // Explicit GestureDetector a szett befejezéséhez a bal oldali dobozon
+          GestureDetector(
+            onTap: () => _szettBefejez(gyakorlatIndex, szettIndex),
+            child: Container(
               width: 40,
               height: 40,
               decoration: BoxDecoration(
@@ -879,35 +880,35 @@ class _AktivEdzesKepernyoState extends State<AktivEdzesKepernyo> {
                 ),
               ),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: _buildInput(
-                      controller: _sulyControllers[szettKey]!,
-                      label: 'KG',
-                      enabled: !szett.befejezett,
-                      elozoErtek: elozoSzett?.suly.toString(),
-                      prErtek: _prs[_gyakorlatok[gyakorlatIndex].nev]?.toString(), // Átadjuk a PR értéket
-                    ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildInput(
+                    controller: _sulyControllers[szettKey]!,
+                    label: 'KG',
+                    enabled: !szett.befejezett,
+                    elozoErtek: elozoSzett?.suly.toString(),
+                    prErtek: _prs[_gyakorlatok[gyakorlatIndex].nev]?.toString(), // Átadjuk a PR értéket
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _buildInput(
-                      controller: _ismetlesControllers[szettKey]!,
-                      label: 'REPS',
-                      enabled: !szett.befejezett,
-                      elozoErtek: elozoSzett?.ismetlesek.toString(),
-                    ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _buildInput(
+                    controller: _ismetlesControllers[szettKey]!,
+                    label: 'REPS',
+                    enabled: !szett.befejezett,
+                    elozoErtek: elozoSzett?.ismetlesek.toString(),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-    );
+    ); // <-- Itt volt a hiba, egy extra zárójel hiányzott vagy rosszul volt elhelyezve
   }
 
   Widget _buildInput({
