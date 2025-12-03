@@ -20,21 +20,22 @@ workflows:
           cd ..
       - name: Disable Signing & Build iOS (Unsigned)
         script: |
-          # 1. LÉPÉS: A projektfájl "meghekkelése", hogy ne kérjen Team ID-t
+          # 1. Aláírás kikapcsolása a projektfájlban (HACK)
+          # Ez azért kell, hogy az Xcode NE kérjen Team ID-t, hiába nincs beállítva
           cd ios
           sed -i '' 's/CODE_SIGNING_REQUIRED = YES/CODE_SIGNING_REQUIRED = NO/g' Runner.xcodeproj/project.pbxproj
           sed -i '' 's/CODE_SIGNING_ALLOWED = YES/CODE_SIGNING_ALLOWED = NO/g' Runner.xcodeproj/project.pbxproj
           sed -i '' 's/DEVELOPMENT_TEAM = .*/DEVELOPMENT_TEAM = "";/g' Runner.xcodeproj/project.pbxproj
           cd ..
 
-          # 2. LÉPÉS: A Build parancs (a hibás --no-auth flag nélkül!)
-          # A -- utáni részek felülbírálják az Xcode beállításait
-          flutter build ios --release --no-codesign -- CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY="" CODE_SIGN_ENTITLEMENTS=""
+          # 2. Build parancs
+          # Itt már nem kellenek extra paraméterek, mert a fenti sed parancsok elintézték
+          flutter build ios --release --no-codesign
       - name: Create IPA manually
         script: |
           cd build/ios/iphoneos
           
-          # Ellenőrzés: Ha a build elhasalt, ne csináljon üres zip-et
+          # Ellenőrzés: Létrejött-e az app?
           if [ ! -d "Runner.app" ]; then
              echo "HIBA: A Runner.app nem jött létre!"
              exit 1
@@ -43,7 +44,7 @@ workflows:
           mkdir Payload
           cp -R Runner.app Payload/
           
-          # A -y (symlinks) kapcsoló nagyon fontos a Sideloadly miatt!
+          # Tömörítés -y kapcsolóval (Sideloadly miatt kötelező!)
           zip -r -y ../../../Runner.ipa Payload/
     artifacts:
       - "*.ipa"
