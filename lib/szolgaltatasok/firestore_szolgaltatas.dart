@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:beast_physical/modellek/edzes.dart';
-import 'package:beast_physical/modellek/gyakorlat.dart';
-import 'package:beast_physical/modellek/szett.dart';
-import 'package:beast_physical/modellek/kuldetes.dart';
+import 'package:beast_physique/modellek/edzes.dart';
+import 'package:beast_physique/modellek/gyakorlat.dart';
+import 'package:beast_physique/modellek/szett.dart';
+import 'package:beast_physique/modellek/kuldetes.dart';
 
 class FirestoreSzolgaltatas {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;

@@ -10,52 +10,89 @@ class InduloKepernyo extends StatefulWidget {
   State<InduloKepernyo> createState() => _InduloKepernyoState();
 }
 
-class _InduloKepernyoState extends State<InduloKepernyo> {
+class _InduloKepernyoState extends State<InduloKepernyo> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
-    _navigaciokeszitese();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800), // Az animáció időtartama
+    )..repeat(reverse: true); // Ismétlődés oda-vissza
+    
+    _animation = Tween<double>(begin: 0.9, end: 1.0).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
   }
 
-  void _navigaciokeszitese() {
-    Timer(const Duration(seconds: 3), () {
-      if (mounted) {
-        try {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => const HitelesitesEllenorzo(), // Paraméterek eltávolítva
-            ),
-          );
-        } catch (e) {
-          debugPrint('Navigációs hiba: $e');
-        }
-      }
-    });
+  Future<void> _initializeApp() async {
+    // Ide kerülhetnek az inicializálási feladatok.
+    // A maximális késleltetést 1.2 másodpercre korlátozzuk.
+    await Future.delayed(const Duration(milliseconds: 1200));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: themeNotifier,
-      builder: (context, isLight, child) {
-        return Scaffold(
-          backgroundColor: isLight ? Colors.white : const Color(0xFF121212),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/images/screenlogo.png',
-                  width: 300,
+    return FutureBuilder(
+      future: _initializeApp(),
+      builder: (context, snapshot) {
+        // Ha a Future még fut, megjelenítjük a splash képernyőt animációval.
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ValueListenableBuilder<bool>(
+            valueListenable: themeNotifier,
+            builder: (context, isLight, child) {
+              return Scaffold(
+                backgroundColor: isLight ? Colors.white : const Color(0xFF121212),
+                body: Center(
+                  child: AnimatedBuilder(
+                    animation: _animation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _animation.value,
+                        child: Image.asset(
+                          'assets/images/screenlogo.png',
+                          width: 300,
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(height: 20),
-                const CircularProgressIndicator(
-                  color: Color(0xFFE65100),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          // Hiba történt az inicializálás során.
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(
+                child: Text(
+                  'Hiba az inicializálás során: ${snapshot.error}',
+                  style: TextStyle(color: Colors.red),
                 ),
-              ],
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          // Ha az inicializálás befejeződött, navigálunk a HitelesitesEllenorzore.
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (context) => const HitelesitesEllenorzo(),
+              ),
+            );
+          });
+          // Addig is, amíg a navigáció megtörténik, egy üres konténert adunk vissza.
+          return Container(color: Colors.transparent);
+        }
       },
     );
   }

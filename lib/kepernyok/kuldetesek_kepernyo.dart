@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:beast_physical/szolgaltatasok/firestore_szolgaltatas.dart';
-import 'package:beast_physical/modellek/kuldetes.dart';
-import 'package:beast_physical/modellek/edzes.dart'; // Importáljuk az Edzés modellt
-import 'package:beast_physical/kepernyok/aktiv_edzes_kepernyo.dart'; // AktivEdzesKepernyo importálása
+import 'package:beast_physique/szolgaltatasok/firestore_szolgaltatas.dart';
+import 'package:beast_physique/modellek/kuldetes.dart';
+import 'package:beast_physique/modellek/edzes.dart'; // Importáljuk az Edzés modellt
+import 'package:beast_physique/kepernyok/aktiv_edzes_kepernyo.dart'; // AktivEdzesKepernyo importálása
 
 class KuldetesekKepernyo extends StatefulWidget {
   const KuldetesekKepernyo({super.key});

@@ -1,10 +1,10 @@
 {
   "roots": [
-    "beast_physical"
+    "beast_physique"
   ],
   "packages": [
     {
-      "name": "beast_physical",
+      "name": "beast_physique",
       "version": "1.0.0+1",
       "dependencies": [
         "cloud_firestore",

@@ -26,7 +26,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios; // Hozzáadva az iOS opció visszatérítése
+        return ios; // Visszatéríti az iOS opciókat
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '892954313142',
     projectId: 'gymbro-1f694',
     storageBucket: 'gymbro-1f694.firebasestorage.app',
-    iosBundleId: 'com.example.beastphysical',
+    // bundleId: 'com.example.beastphysical', // Eltávolítva: a FirebaseOptions nem támogatja ezt a paramétert
   );
 }

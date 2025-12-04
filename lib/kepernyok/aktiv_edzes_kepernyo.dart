@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:beast_physical/modellek/edzes.dart';
-import 'package:beast_physical/modellek/gyakorlat.dart';
-import 'package:beast_physical/modellek/szett.dart';
-import 'package:beast_physical/szolgaltatasok/firestore_szolgaltatas.dart';
+import 'package:beast_physique/modellek/edzes.dart';
+import 'package:beast_physique/modellek/gyakorlat.dart';
+import 'package:beast_physique/modellek/szett.dart';
+import 'package:beast_physique/szolgaltatasok/firestore_szolgaltatas.dart';
 import 'package:flutter/services.dart';
 
 class AktivEdzesKepernyo extends StatefulWidget {

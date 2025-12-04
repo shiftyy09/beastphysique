@@ -11,24 +11,51 @@ class HitelesitesSzolgaltatas {
   // Felhasználó állapot figyelése
   Stream<User?> get felhasznaloValtozas => _firebaseAuth.authStateChanges();
 
+  // Regisztráció e-maillel és jelszóval
+  Future<UserCredential?> regisztracioEmaillel(String email, String password) async {
+    try {
+      return await _firebaseAuth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      // Kezeld a specifikus hibákat, pl. gyenge jelszó, e-mail már használatban van
+      print("Hiba a regisztráció során: ${e.message}");
+      rethrow; // Dobjuk tovább a hibát a UI réteg felé
+    } catch (e) {
+      print("Általános hiba a regisztráció során: $e");
+      rethrow;
+    }
+  }
+
+  // Bejelentkezés e-maillel és jelszóval
+  Future<UserCredential?> bejelentkezesEmaillel(String email, String password) async {
+    try {
+      return await _firebaseAuth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      // Kezeld a specifikus hibákat, pl. rossz jelszó, felhasználó nem található
+      print("Hiba a bejelentkezés során: ${e.message}");
+      rethrow;
+    } catch (e) {
+      print("Általános hiba a bejelentkezés során: $e");
+      rethrow;
+    }
+  }
+
   // Bejelentkezés Google fiókkal
   Future<UserCredential?> bejelentkezesGoogle() async {
     try {
-      // 1. Google bejelentkezés indítása
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      
-      if (googleUser == null) return null; // A felhasználó megszakította
+      if (googleUser == null) return null;
 
-      // 2. Hitelesítési adatok lekérése
       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-
-      // 3. Új hitelesítési "credential" készítése
       final OAuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
-      // 4. Bejelentkezés Firebase-be
       return await _firebaseAuth.signInWithCredential(credential);
     } catch (e) {
       print("Hiba a Google bejelentkezés során: $e");

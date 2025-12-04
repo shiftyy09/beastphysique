@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:beast_physical/szolgaltatasok/firestore_szolgaltatas.dart';
-import 'package:beast_physical/modellek/kuldetes.dart';
+import 'package:beast_physique/szolgaltatasok/firestore_szolgaltatas.dart';
+import 'package:beast_physique/modellek/kuldetes.dart';
 import '../../kepernyok/kuldetesek_kepernyo.dart'; // Az új, HELYES képernyő importálása
 
 class KovetkezoEdzesKartya extends StatefulWidget {

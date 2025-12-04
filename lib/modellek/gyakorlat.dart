@@ -1,4 +1,4 @@
-import 'package:beast_physical/modellek/szett.dart';
+import 'package:beast_physique/modellek/szett.dart';
 
 class Gyakorlat {
   String nev;
