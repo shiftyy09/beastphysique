@@ -1,4 +1,4 @@
-package com.example.gymbro
+package com.beastphysique.app
 
 import io.flutter.embedding.android.FlutterActivity
 

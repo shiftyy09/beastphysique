@@ -1,49 +1,50 @@
 {
   "project_info": {
-    "project_number": "892954313142",
-    "project_id": "gymbro-1f694",
-    "storage_bucket": "gymbro-1f694.firebasestorage.app"
+    "project_number": "438895300338",
+    "project_id": "beastphysique-ccccb",
+    "storage_bucket": "beastphysique-ccccb.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:892954313142:android:8d73280085ae5632b9c117",
+        "mobilesdk_app_id": "1:438895300338:android:7a1706c0e8b40c5ef70a6b",
         "android_client_info": {
-          "package_name": "com.example.gymbro"
+          "package_name": "com.beastphysique.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "892954313142-36lun9u8d1ri835dhv9avht8jjr1tsoj.apps.googleusercontent.com",
+          "client_id": "438895300338-2haulf4qfmd5e3k0fm21hmf4lvs5592o.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.gymbro",
+            "package_name": "com.beastphysique.app",
             "certificate_hash": "f03297a8c5986918865701c1a30948007a182a2a"
           }
         },
         {
-          "client_id": "892954313142-r5s12406kfk7ij9gfa1jc0hiphn8j1i3.apps.googleusercontent.com",
+          "client_id": "438895300338-fb8vucnikk63o3gjnh2435uhbiemasue.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.beastphysique.app",
+            "certificate_hash": "f43347e75a897339c720851b54619a13f071af0a"
+          }
+        },
+        {
+          "client_id": "438895300338-ov6u1p2duvck2m64igjjgfiijpv0rkbo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAbxal9oWxMEtnUUGhosVcRwHX03TuNX4U"
+          "current_key": "AIzaSyATr3iBP37MpSQsn2fUGt-LJANsPo3jJSM"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "892954313142-r5s12406kfk7ij9gfa1jc0hiphn8j1i3.apps.googleusercontent.com",
+              "client_id": "438895300338-ov6u1p2duvck2m64igjjgfiijpv0rkbo.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "892954313142-ca3cksl1crilqmln8fpc4njamr1sf6sc.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.beastphysical"
-              }
             }
           ]
         }
