@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:async';
+import 'dart:ui';
 
-// Widget importok
+// Widgetek és Modellek
 import '../widgetek/heti_cel_kartya_uj.dart';
 import '../widgetek/fokepernyo_elemek/brutal_header.dart';
 import '../widgetek/fokepernyo_elemek/brutal_banner.dart';
@@ -11,8 +12,6 @@ import '../widgetek/fokepernyo_elemek/utolso_edzes_kartya.dart';
 import '../widgetek/fokepernyo_elemek/stat_card.dart';
 import '../widgetek/fokepernyo_elemek/kovetkezo_edzes_kartya.dart';
 import '../widgetek/fokepernyo_elemek/section_title.dart';
-
-// Szolgáltatások
 import '../szolgaltatasok/firestore_szolgaltatas.dart';
 import '../modellek/edzes.dart';
 import 'aktiv_edzes_kepernyo.dart';
@@ -27,7 +26,6 @@ class FoKepernyo extends StatefulWidget {
 class _FoKepernyoState extends State<FoKepernyo> {
   final FirestoreSzolgaltatas _firestoreSzolgaltatas = FirestoreSzolgaltatas();
 
-  // Heti cél beállítása callback a HetiCelKartyaUj-ból
   Future<void> _setWeeklyGoal(int newGoal) async {
     await _firestoreSzolgaltatas.hetiCelMentes(newGoal);
   }
@@ -38,77 +36,248 @@ class _FoKepernyoState extends State<FoKepernyo> {
     final nev = user?.displayName?.split(' ')[0] ?? 'Bajnok';
     final kepUrl = user?.photoURL;
 
-    final theme = Theme.of(context);
     return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BrutalHeader(nev: nev, kepUrl: kepUrl),
-              const SizedBox(height: 32),
-
-              const BrutalBanner(),
-              const SizedBox(height: 24),
-
-              // Streak és Heti Cél kártyák StreamBuilderrel
-              StreamBuilder<int>(
-                stream: _firestoreSzolgaltatas.napiStreakLekeres(),
-                builder: (context, streakSnapshot) {
-                  final streakDays = streakSnapshot.data ?? 0;
-                  return StreamBuilder<int>(
-                    stream: _firestoreSzolgaltatas.hetiCelLekeres(),
-                    builder: (context, celSnapshot) {
-                      final hetiCel = celSnapshot.data ?? 5;
-                      return StreamBuilder<int>(
-                        stream: _firestoreSzolgaltatas.hetiEdzesekSzama(),
-                        builder: (context, edzesekSnapshot) {
-                          final hetiEdzesek = edzesekSnapshot.data ?? 0;
-                          return Row(
-                            children: [
-                              Expanded(child: StreakCard(streakDays: streakDays)),
-                              const SizedBox(width: 16),
-                              Expanded(
-                                child: HetiCelKartyaUj(
-                                  hetiCel: hetiCel,
-                                  hetiEdzesek: hetiEdzesek,
-                                  onCelBeallitas: _setWeeklyGoal,
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  );
-                },
+      backgroundColor: Colors.black, // Mélyfekete alap
+      body: Stack(
+        children: [
+          // 1. WOW FAKTOR: Háttér vörös izzás (Glow Effect)
+          Positioned(
+            top: -100,
+            right: -50,
+            child: Container(
+              width: 300,
+              height: 300,
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF3B30).withOpacity(0.08),
+                shape: BoxShape.circle,
               ),
+              child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 80, sigmaY: 80),
+                  child: Container()
+              ),
+            ),
+          ),
 
-              const SizedBox(height: 28),
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 10),
+                  BrutalHeader(nev: nev, kepUrl: kepUrl),
+                  const SizedBox(height: 25),
 
-              const SectionTitle(title: 'UTOLSÓ CSATA'),
-              const SizedBox(height: 12),
-              _buildUtolsoEdzesLoader(),
-              const SizedBox(height: 28),
+                  // HALADÁS PANEL
+                  _buildProgressSection(),
 
-              const SectionTitle(title: 'TELJESÍTMÉNY'),
-              const SizedBox(height: 12),
-              _buildStatisztikaGrid(),
-              const SizedBox(height: 28),
+                  const SizedBox(height: 30),
+                  const BrutalBanner(),
 
-              const SectionTitle(title: 'KÖVETKEZŐ KÜLDETÉS'),
-              const SizedBox(height: 12),
-              const KovetkezoEdzesKartya(),
+                  const SizedBox(height: 35),
 
-              const SizedBox(height: 100),
+                  const SectionTitle(title: 'UTOLSÓ CSATA'),
+                  const SizedBox(height: 12),
+                  _buildUtolsoEdzesLoader(),
+
+                  const SizedBox(height: 35),
+
+                  const SectionTitle(title: 'TELJESÍTMÉNY MÁTRIX'),
+                  const SizedBox(height: 15),
+                  _buildStatisztikaGrid(),
+
+                  const SizedBox(height: 35),
+
+                  const SectionTitle(title: 'KÖVETKEZŐ KÜLDETÉS'),
+                  const SizedBox(height: 12),
+                  const KovetkezoEdzesKartya(),
+
+                  // --- FONTOS JAVÍTÁS ---
+                  // Kell a hely a lista végén, hogy az utolsó kártya is kigördüljön a FAB és a NavBar alól
+                  const SizedBox(height: 200),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+
+      // --- FONTOS JAVÍTÁS: A GOMB MEGEMELÉSE ---
+      floatingActionButton: Padding(
+        // Ez a padding emeli meg a gombot pontosan a lebegő NavBar fölé
+        padding: const EdgeInsets.only(bottom: 110),
+        child: _buildBeastFAB(context),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  // --- ARÉNA INDÍTÁSA GOMB (DESIGNED FAB) ---
+  Widget _buildBeastFAB(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const AktivEdzesKepernyo())
+      ),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.85,
+        height: 65,
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFFF3B30), Color(0xFFD32F2F)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF3B30).withOpacity(0.4),
+              blurRadius: 20,
+              offset: const Offset(0, 10),
+            ),
+          ],
+        ),
+        child: const Center(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.bolt, color: Colors.white, size: 28),
+              SizedBox(width: 12),
+              Text(
+                'Edzés indítása',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w900, // Brutál vastag betű
+                    letterSpacing: 1.5
+                ),
+              ),
             ],
           ),
         ),
       ),
-      floatingActionButton: _buildBrutalFAB(context),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+    );
+  }
+
+  // --- STATISZTIKA ÉS HALADÁS METÓDUSOK ---
+
+  Widget _buildProgressSection() {
+    return StreamBuilder<int>(
+      stream: _firestoreSzolgaltatas.napiStreakLekeres(),
+      builder: (context, streakSnapshot) {
+        return StreamBuilder<int>(
+          stream: _firestoreSzolgaltatas.hetiCelLekeres(),
+          builder: (context, celSnapshot) {
+            return StreamBuilder<int>(
+              stream: _firestoreSzolgaltatas.hetiEdzesekSzama(),
+              builder: (context, edzesekSnapshot) {
+                final streak = streakSnapshot.data ?? 0;
+                final cel = celSnapshot.data ?? 5;
+                final aktSzeria = edzesekSnapshot.data ?? 0;
+
+                return Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF121212),
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: Colors.white.withOpacity(0.05)),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          _buildMiniInfo('STREAK', '$streak NAP', Icons.local_fire_department, Colors.orange),
+                          _buildMiniInfo('HETI CÉL', '$aktSzeria / $cel', Icons.ads_click, Colors.red),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: LinearProgressIndicator(
+                          value: (aktSzeria / cel).clamp(0.0, 1.0),
+                          minHeight: 8,
+                          backgroundColor: Colors.white.withOpacity(0.05),
+                          color: const Color(0xFFFF3B30),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildMiniInfo(String label, String value, IconData icon, Color color) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 20),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: TextStyle(color: Colors.grey[600], fontSize: 10, fontWeight: FontWeight.bold)),
+            Text(value, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900)),
+          ],
+        )
+      ],
+    );
+  }
+
+  Widget _buildStatisztikaGrid() {
+    return StreamBuilder<Map<String, dynamic>>(
+      stream: _firestoreSzolgaltatas.teljesStatisztikaStream(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) return const Center(child: CircularProgressIndicator(color: Colors.red));
+
+        final stats = snapshot.data!;
+        return GridView.count(
+          crossAxisCount: 2,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
+          childAspectRatio: 1.3,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: [
+            _buildModernStatCard('ÖSSZES EDZÉS', stats['osszEdzes'].toString(), 'DB', const Color(0xFFFF3B30)),
+            _buildModernStatCard('EMELT SÚLY', stats['osszEmeltSuly'].toStringAsFixed(1), 'TONNA', const Color(0xFFFF9500)),
+            _buildModernStatCard('REKORDOK', stats['osszPr'].toString(), 'PR', const Color(0xFFFFD700)),
+            _buildModernStatCard('IDŐTARTAM', stats['osszEdzesIdo'].toString(), 'ÓRA', const Color(0xFF00D9FF)),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildModernStatCard(String title, String value, String unit, Color accent) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF121212),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: accent.withOpacity(0.2)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(title, style: TextStyle(color: Colors.grey[600], fontSize: 10, fontWeight: FontWeight.bold)),
+          const SizedBox(height: 5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(value, style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900)),
+              const SizedBox(width: 4),
+              Text(unit, style: TextStyle(color: accent, fontSize: 10, fontWeight: FontWeight.bold)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
@@ -116,15 +285,11 @@ class _FoKepernyoState extends State<FoKepernyo> {
     return FutureBuilder<Edzes?>(
       future: _firestoreSzolgaltatas.utolsoEdzesLekeres(),
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return _buildLoadingCard();
-        }
+        if (snapshot.connectionState == ConnectionState.waiting) return const SizedBox(height: 100, child: Center(child: CircularProgressIndicator(color: Colors.red)));
 
         if (snapshot.hasData && snapshot.data != null) {
           final edzes = snapshot.data!;
-          final osszSuly = edzes.gyakorlatok.fold<int>(
-              0, (sum, gy) => sum + gy.szettek.fold<int>(
-              0, (s, sz) => s + (sz.suly * sz.ismetlesek).toInt()));
+          final osszSuly = edzes.gyakorlatok.fold<int>(0, (sum, gy) => sum + gy.szettek.fold<int>(0, (s, sz) => s + (sz.suly * sz.ismetlesek).toInt()));
 
           return UtolsoEdzesKartya(
             nev: edzes.nev,
@@ -138,172 +303,27 @@ class _FoKepernyoState extends State<FoKepernyo> {
     );
   }
 
-  Widget _buildStatisztikaGrid() {
-    return StreamBuilder<Map<String, dynamic>>(
-      stream: _firestoreSzolgaltatas.teljesStatisztikaStream(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 1.1,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [_buildLoadingCard(), _buildLoadingCard(), _buildLoadingCard(), _buildLoadingCard()],
-          );
-        }
-
-        if (snapshot.hasError) {
-          return Text('Hiba: ${snapshot.error}', style: TextStyle(color: Colors.red));
-        }
-
-        final stats = snapshot.data ?? {};
-        final osszEdzes = stats['osszEdzes']?.toString() ?? '0';
-        final osszEmeltSuly = stats['osszEmeltSuly']?.toStringAsFixed(1) ?? '0.0';
-        final osszPr = stats['osszPr']?.toString() ?? '0';
-        final osszEdzesIdo = stats['osszEdzesIdo']?.toString() ?? '0';
-
-        return GridView.count(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 1.1,
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            StatCard(
-              title: 'EDZÉSEK',
-              value: osszEdzes,
-              unit: 'db',
-              icon: Icons.fitness_center_rounded,
-              accentColor: const Color(0xFFFF3B30),
-            ),
-            StatCard(
-              title: 'EMELT SÚLY',
-              value: osszEmeltSuly,
-              unit: 'tonna',
-              icon: Icons.monitor_weight_outlined,
-              accentColor: const Color(0xFFFF9500),
-            ),
-            StatCard(
-              title: 'PR-EK',
-              value: osszPr,
-              unit: 'rekord',
-              icon: Icons.workspace_premium_rounded,
-              accentColor: const Color(0xFFFFD700),
-            ),
-            StatCard(
-              title: 'EDZÉSIDŐ',
-              value: osszEdzesIdo,
-              unit: 'óra',
-              icon: Icons.timer_outlined,
-              accentColor: const Color(0xFF00D9FF),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Widget _buildLoadingCard() {
-    final theme = Theme.of(context);
-    return Container(
-      height: 120,
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.2), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Center(
-          child: CircularProgressIndicator(color: theme.colorScheme.primary)),
-    );
-  }
-
   Widget _buildNoWorkoutCard() {
-    final theme = Theme.of(context);
     return Container(
-      padding: const EdgeInsets.all(32),
+      width: double.infinity,
+      padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: theme.dividerColor.withOpacity(0.2), width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
+          color: const Color(0xFF121212),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white.withOpacity(0.05))
       ),
-      child: Center(
-        child: Column(
-          children: [
-            Icon(Icons.fitness_center_rounded, color: theme.dividerColor.withOpacity(0.5), size: 32),
-            const SizedBox(height: 16),
-            Text('MÉG NINCS EDZÉS', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBrutalFAB(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width - 40,
-      height: 64,
-      decoration: BoxDecoration(
-        color: const Color(0xFFE65100),
-        borderRadius: BorderRadius.circular(32),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFFE65100).withOpacity(0.5),
-            blurRadius: 30,
-            offset: const Offset(0, 15),
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () =>
-              Navigator.push(context, MaterialPageRoute(
-                  builder: (context) => const AktivEdzesKepernyo())),
-          borderRadius: BorderRadius.circular(32),
-          child: const Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.play_arrow_rounded, color: Colors.black, size: 32),
-                SizedBox(width: 12),
-                Text('EDZÉS INDÍTÁSA',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                      letterSpacing: 1.5,
-                    )),
-              ],
-            ),
-          ),
-        ),
+      child: const Text(
+          'MÉG NEM VOLT CSATÁD. IDEJE ELKEZDENI!',
+          style: TextStyle(color: Colors.grey, fontWeight: FontWeight.bold, fontSize: 12),
+          textAlign: TextAlign.center
       ),
     );
   }
 
   String _getTimeAgo(DateTime date) {
-    final now = DateTime.now();
-    final diff = now.difference(date);
-    if (diff.inDays > 0) return '${diff.inDays}d';
-    if (diff.inHours > 0) return '${diff.inHours}h';
-    if (diff.inMinutes > 0) return '${diff.inMinutes}m';
-    return 'most';
+    final diff = DateTime.now().difference(date);
+    if (diff.inDays > 0) return '${diff.inDays} napja';
+    if (diff.inHours > 0) return '${diff.inHours} órája';
+    return '${diff.inMinutes} perce';
   }
 }
